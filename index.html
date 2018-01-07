@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Pokédex</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  </head>
+
+  <body>
+    <!-- wrapper begins -->
+    <div id="wrapper">
+
+      <!-- header -->
+      <div id="header">
+        <h1>Kanto Pokédex</h1>
+      </div>
+
+      <!-- images -->
+      <div id="images">
+
+      </div>
+
+      <!-- Pokédex -->
+      <div id="pokedex">
+      </div>
+
+    </div> <!-- wrapper ends -->
+
+    <!-- JavaScript -->
+    <script>
+      for(var i=1; i <= 151; i++) {
+        $('#images').append('<img class="pokemon" id=' + i + ' src="http://www.pokeapi.co/media/img/'+i+'.png">')
+      }
+
+      $(document).on('click', '.pokemon', function() {
+        $('#pokedex').empty();
+      $.get('https://pokeapi.co/api/v2/pokemon/' + this.id + '/', function(info) {
+        $('#pokedex').append('<h2>' + info.species.name + '</h2>');
+        $('#pokedex').append('<img src="http://www.pokeapi.co/media/img/' + info.id + '.png">');
+        if(info.types[1]) {
+          $('#pokedex').append('<p>Types</p><ul><li>' + info.types[0].type.name + '</li><li>' + info.types[1].type.name + '</li></ul>')
+        } else {
+          $('#pokedex').append('<p>Types</p><ul><li>' + info.types[0].type.name + '</li>')
+        };
+        $('#pokedex').append('<p>Height</p>' + info['height']);
+        $('#pokedex').append('<p>Weight</p>' + info['weight']);
+
+      }, 'json');
+    });
+    </script>
+
+  </body>
+</html>
